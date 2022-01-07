@@ -1,0 +1,16 @@
+RTL/spi_exe_unit_1_rtl.sv
+RTL/spi_exe_unit_2_rtl.sv
+RTL/spi_exe_unit_3_rtl.sv
+RTL/spi_exe_unit_4_rtl.sv
+RTL/spi_mastre_rtl.sv
+WORK/spi_master.yosys.log
+WORK/spi_slave_1.yosys.log
+WORK/spi_slave_2.yosys.log
+WORK/spi_slave_3.yosys.log
+WORK/spi_slave_4.yosys.log
+WORK/spi_test.iveri.log
+WORK/spi_test.iveri.run
+WORK/waves.vcd
+
+DOC/out.svg
+DOC/spi_exe_unit_1.json
