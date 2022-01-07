@@ -2,7 +2,7 @@ module spi_master(i_clk, i_rst,
                   i_data, i_send, 
                   o_data, o_busy, 
                   i_miso, o_mosi, o_sclk, o_ss);
-parameter BITS = 5;
+parameter BITS = 20;
 parameter SLAVES_NUMBER = 4;
 
 input logic             i_clk, i_rst, i_send, i_miso;
@@ -120,7 +120,7 @@ begin
 
 end
 
-always_ff @(posedge i_clk, negedge i_rst)
+always @(posedge i_clk, negedge i_rst)
 begin
     if (!i_rst)
     begin
