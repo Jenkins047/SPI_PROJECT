@@ -190,7 +190,7 @@ begin
         if(s_inter)
         begin
             s_state_next = READY;
-            {s_en_out, s_en_in} = '0;
+            {s_en_out, s_en_in} = '1;
             {s_wrt_in, s_wrt_out} = 2'b01;
             {argA_enable, argB_enable, oper_enable} = '0;
         end
