@@ -5,7 +5,7 @@
 `define RSTTIME     201
 
 module testbench;
-parameter BITS = 20;
+parameter BITS = 21;
 
 logic               clk = 1'b1;
 logic               rst = 1'b1;
