@@ -14,7 +14,7 @@ logic [3:0] s_flags_next;
 logic [M-1:0] s_data_next;
 logic [2:0] s_cycles;
 logic s_we, s_inter;
-logic argA_enable, argB_enable, oper_enable;
+logic argA_enable, argB_enable, oper_enable, result_enable;
 //logic s_bit, s_bit_next;
 
 exe_unit #(.N(N), .M(M)) exe1 (
@@ -42,7 +42,7 @@ logic s_en_out, s_wrt_out;
 shifter #(.N(BITS)) shift_out (   
                                .i_clk_p(i_sclk),
                                .i_rst_n(i_rst),
-                               .i_data({s_result, s_flags, {(BITS-8){1'b0}}}),
+                               .i_data({s_result, s_flags, {9{1'b0}}}),
                                .i_en(s_en_out),
                                .i_wrt(s_wrt_out),
                                .o_bit(o_miso)
@@ -70,14 +70,15 @@ logic [$clog2(STATES_NUM)-1:0] s_state, s_state_next;
 
 always @(*)
 begin
-    s_bit_next = i_mosi;
     s_state_next = s_state;
+    result_enable = '0;
+
     case(s_state)
 
     READY:
     begin
         {s_en_out, s_en_in} = '0;
-        {s_wrt_in, s_wrt_out} = 2'b01;
+        {s_wrt_in, s_wrt_out} = 2'b00;
         s_cycles = 0;
         s_we = '0;
         {argA_enable, argB_enable, oper_enable} = '0;
@@ -85,7 +86,7 @@ begin
         begin
             s_state_next = LOAD_OPER;
             {s_en_out, s_en_in} = '1;
-            {s_wrt_in, s_wrt_out} = '0;
+            {s_wrt_in, s_wrt_out} = 2'b00;
             s_cycles = 3;
             s_we = '1;
         end
@@ -94,7 +95,7 @@ begin
     LOAD_OPER:
     begin
         {s_en_out, s_en_in} = '1;
-        {s_wrt_in, s_wrt_out} = '0;
+        {s_wrt_in, s_wrt_out} = 2'b00;
         s_cycles = 0;
         s_we = '0;
         s_oper_next = '1;
@@ -103,7 +104,7 @@ begin
         begin
             s_state_next = STORE_OPER;
             {s_en_out, s_en_in} = '1;
-            {s_wrt_in, s_wrt_out} = '0;
+            {s_wrt_in, s_wrt_out} = 2'b00;
             s_cycles = 0;
             {argA_enable, argB_enable, oper_enable} = 3'b001;
             s_oper_next = s_data_next[7:4];
@@ -115,7 +116,7 @@ begin
     begin
         s_state_next = LOAD_A;
         {s_en_out, s_en_in} = '1;
-        {s_wrt_in, s_wrt_out} = '0;
+        {s_wrt_in, s_wrt_out} = 2'b00;
         s_cycles = 4;
         s_we = '1;
         {argA_enable, argB_enable, oper_enable} = '0;
@@ -124,7 +125,7 @@ begin
     LOAD_A:
     begin
         {s_en_out, s_en_in} = '1;
-        {s_wrt_in, s_wrt_out} = '0;
+        {s_wrt_in, s_wrt_out} = 2'b00;
         s_cycles = 0;
         s_we = '0;
         s_argA_next = '1;
@@ -133,7 +134,7 @@ begin
         begin
             s_state_next = STORE_A;
             {s_en_out, s_en_in} = '1;
-            {s_wrt_in, s_wrt_out} = '0;
+            {s_wrt_in, s_wrt_out} = 2'b00;
             s_cycles = 0;        
             {argA_enable, argB_enable, oper_enable} = 3'b100;
             s_argA_next = s_data_next;
@@ -144,7 +145,7 @@ begin
     begin
         s_state_next = LOAD_B;
         {s_en_out, s_en_in} = '1;
-        {s_wrt_in, s_wrt_out} = '0;
+        {s_wrt_in, s_wrt_out} = 2'b00;
         s_cycles = 6;
         s_we = '1;
         {argA_enable, argB_enable, oper_enable} = '0;
@@ -154,7 +155,7 @@ begin
     begin
 
         {s_en_out, s_en_in} = '1;
-        {s_wrt_in, s_wrt_out} = '0;
+        {s_wrt_in, s_wrt_out} = 2'b00;
         s_cycles = 0;
         s_we = '0;
         s_argB_next = '1;
@@ -163,7 +164,7 @@ begin
         begin
             s_state_next = SET_IDLE;
             {s_en_out, s_en_in} = '1;
-            {s_wrt_in, s_wrt_out} = '0;
+            {s_wrt_in, s_wrt_out} = 2'b00;
             s_cycles = 2;
             {argA_enable, argB_enable, oper_enable} = 3'b010;
             s_argB_next = s_data_next;
@@ -174,22 +175,23 @@ begin
     begin
         s_state_next = IDLE;
         {s_en_out, s_en_in} = '0;
-        {s_wrt_in, s_wrt_out} = '0;
+        {s_wrt_in, s_wrt_out} = 2'b01;
         s_cycles = 1;
         s_we = '1;
     end
 
     IDLE:
     begin
-        {s_en_out, s_en_in} = '0;
-        {s_wrt_in, s_wrt_out} = '0;
+        {s_en_out, s_en_in} = '1;
+        {s_wrt_in, s_wrt_out} = 2'b01;
         s_cycles = 1;
         s_we = '0;
+        result_enable = '1;
         if(s_inter)
         begin
             s_state_next = READY;
             {s_en_out, s_en_in} = '0;
-            {s_wrt_in, s_wrt_out} = '0;
+            {s_wrt_in, s_wrt_out} = 2'b01;
             {argA_enable, argB_enable, oper_enable} = '0;
         end
     end
@@ -239,6 +241,7 @@ begin : regResult
  if (!i_rst)
      s_result <= '0;
  else
+  if (result_enable)
      s_result <= s_result_next;
 end
 
@@ -247,6 +250,7 @@ begin : regFlags
  if (!i_rst)
      s_flags <= '0;
  else
+  if (result_enable)
      s_flags <= s_flags_next;
 end
 
