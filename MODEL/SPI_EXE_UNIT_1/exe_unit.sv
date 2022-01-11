@@ -1,4 +1,4 @@
-module exe_unit(i_argA, i_argB, i_oper, o_result, o_SF, o_OF, o_NF, o_BF, o_err);
+module exe_unit(i_argA, i_argB, i_oper, o_result, o_SF, o_OF, o_NF, o_BF);
 	parameter N=4, M=9;
 	input logic [M-1:0] i_argA, i_argB;
 	input logic [N-1:0] i_oper;
@@ -13,7 +13,6 @@ module exe_unit(i_argA, i_argB, i_oper, o_result, o_SF, o_OF, o_NF, o_BF, o_err)
 	logic [M-1:0] U2;
 	logic [$clog2(M)-1:0] encode;
 	logic [M-1:0] s_ones;
-	output logic o_err;
 	
 	zero_counter #(.I_LEN(2*M)) z1(.i_data({i_argA, i_argB}), .o_amountOfZeroes(s_z1));
 	
@@ -23,7 +22,7 @@ module exe_unit(i_argA, i_argB, i_oper, o_result, o_SF, o_OF, o_NF, o_BF, o_err)
 	
 	priority_encoder #(.LEN(M)) pEncoder(.i_data(i_argA), .o_y(encode));
 	
-	onehot2nkb_encoder #(.LEN(M)) onehot(.i_onehot(i_argA), .o_nkb(s_onehot), .o_err(o_err));
+	onehot2nkb_encoder #(.LEN(M)) onehot(.i_onehot(i_argA), .o_nkb(s_onehot));
 	
 	crc_eval #(.WCODE(M), .WPOLY(4))
 	crc4(.i_data(i_argA), 
