@@ -1,195 +1,214 @@
 select_slave = 0;
 send_request = 1;
 
-send_data = 20'b11111111000000000000;
-expected_data = 0;
+send_data = {8'd111, 8'd0, 4'd0};
+expected_data = 21'b0000000000000000000000;
 @(next_data);
 
-send_data = 408912;
-expected_data = 20'b11111111011100000000;
+send_data = {8'd99, 8'd213, 4'd0};
+expected_data = {8'd111, 4'b0100, 9'b0};
 @(next_data);
 
-send_data = 736256;
-expected_data = 853248;
+send_data = 21'b01100011110101010000;
+expected_data = {8'b10001110, 4'b0100, 9'b0};
 @(next_data);
 
-send_data = 485104;
-expected_data = 458752;
+send_data = 21'b10110011110000000000;
+expected_data = 21'b0011100101000000000000;
 @(next_data);
 
-send_data = 770305;
-expected_data = 11273472;
+send_data = 21'b01110110011011110000;
+expected_data = 21'b1100110101000000000000;
 @(next_data);
 
-send_data = 889361;
-expected_data = 16253184;
+send_data = 21'b10111100000100000001;
+expected_data = 21'b0001110000000000000000;
 @(next_data);
 
-send_data = 605457;
-expected_data = 4326400;
+send_data = 21'b11011001001000010001;
+expected_data = 21'b1011000101000000000000;
 @(next_data);
 
-send_data = 299153;
-expected_data = 4196352;
+send_data = 21'b10010011110100010001;
+expected_data = 21'b1110000001000000000000;
 @(next_data);
 
-send_data = 595954;
-expected_data = 15598848;
+send_data = 21'b01001001000010010001;
+expected_data = 21'b0000100100000000000000;
 @(next_data);
 
-send_data = 1044338;
-expected_data = 9044992;
+send_data = 21'b10010001011111110010;
+expected_data = 21'b0000001000000000000000;
 @(next_data);
 
-send_data = 482754;
-expected_data = 15663360;
+send_data = 21'b11111110111101110010;
+expected_data = 21'b1011100101000000000000;
 @(next_data);
 
-send_data = 70338;
-expected_data = 14618112;
+send_data = 21'b01110101110111000010;
+expected_data = 21'b0010010100000000000000;
 @(next_data);
 
-send_data = 666051;
-expected_data = 1024;
+send_data = 21'b00010001001011000010;
+expected_data = 21'b1010110001000000000000;
 @(next_data);
 
-send_data = 258067;
-expected_data = 8258560;
+send_data = 21'b10100010100111000011;
+expected_data = 21'b1111110111000000000000;
 @(next_data);
 
-send_data = 278563;
-expected_data = 1050624;
+send_data = 21'b00111111000000010011;
+expected_data = 21'b0000000100000000000000;
 @(next_data);
 
-send_data = 307251;
-expected_data = 5767168;
+send_data = 21'b01000100000000100011;
+expected_data = 21'b1111100100000000000000;
 @(next_data);
 
-send_data = 348164;
-expected_data = 5571584;
+send_data = 21'b01001011000000110011;
+expected_data = 21'b0100001000000000000000;
 @(next_data);
 
-send_data = 61460;
-expected_data = 458752;
+send_data = 21'b01010101000000000100;
+expected_data = 21'b0110000000000000000000;
 @(next_data);
 
-send_data = 962596;
-expected_data = 3802112;
+send_data = 21'b00001111000000010100;
+expected_data = 21'b0101010100000000000000;
 @(next_data);
 
-send_data = 311348;
-expected_data = 590848;
+send_data = 21'b11101011000000100100;
+expected_data = 21'b0001110000000000000000;
 @(next_data);
 
-send_data = 6615;
-expected_data = 1024;
+send_data = 21'b01001100000000110100;
+expected_data = 21'b1110100100000000000000;
 @(next_data);
 
-send_data = 69223;
-expected_data = 264192;
+send_data = 21'b00011001000000000101;
+expected_data = 21'b0010010100000000000000;
 @(next_data);
 
-send_data = 67031;
-expected_data = 264192;
+send_data = 21'b11000111011010110101;
+expected_data = 21'b0000000100000000000000;
 @(next_data);
 
-send_data = 131415;
-expected_data = 328704;
+send_data = 21'b11011011100001000101;
+expected_data = 21'b0000011000000000000000;
 @(next_data);
 
-send_data = 33832;
-expected_data = 854016;
+send_data = 21'b00101101101100110101;
+expected_data = 21'b0001001000000000000000;
 @(next_data);
 
-send_data = 205704;
-expected_data = 657408;
+send_data = 21'b00000001100111010111;
+expected_data = 21'b0001001000000000000000;
 @(next_data);
 
-send_data = 92904;
-expected_data = 525312;
+send_data = 21'b00010000111001100111;
+expected_data = 21'b0001001000000000000000;
 @(next_data);
 
-send_data = 425784;
-expected_data = 328704;
+send_data = 21'b00010000010111010111;
+expected_data = 21'b0001001000000000000000;
 @(next_data);
 
-send_data = 546809;
-expected_data = 16449792;
+send_data = 21'b00100000000101010111;
+expected_data = 21'b0001001000000000000000;
 @(next_data);
 
-send_data = 869673;
-expected_data = 11273472;
+send_data = 21'b00001000010000101000;
+expected_data = 21'b0001001000000000000000;
 @(next_data);
 
-send_data = 1014585;
-expected_data = 8978688;
+send_data = 21'b00110010001110001000;
+expected_data = 21'b0001001000000000000000;
 @(next_data);
 
-send_data = 737417;
-expected_data = 13370624;
+send_data = 21'b00010110101011101000;
+expected_data = 21'b0001001000000000000000;
 @(next_data);
 
-send_data = 194154;
-expected_data = 3080192;
+send_data = 21'b01100111111100111000;
+expected_data = 21'b0001001000000000000000;
 @(next_data);
 
-send_data = 709754;
-expected_data = 13828352;
+send_data = 21'b10000101011111111001;
+expected_data = 21'b0001001000000000000000;
 @(next_data);
 
-send_data = 647386;
-expected_data = 14812416;
+send_data = 21'b11010100010100101001;
+expected_data = 21'b0001001000000000000000;
 @(next_data);
 
-send_data = 855402;
-expected_data = 11534592;
+send_data = 21'b11110111101100111001;
+expected_data = 21'b0001001000000000000000;
 @(next_data);
 
-send_data = 316555;
-expected_data = 394240;
+send_data = 21'b10110100000010001001;
+expected_data = 21'b0001001000000000000000;
 @(next_data);
 
-send_data = 628395;
-expected_data = 458752;
+send_data = 21'b00101111011001101010;
+expected_data = 21'b0001001000000000000000;
 @(next_data);
 
-send_data = 344347;
-expected_data = 394240;
+send_data = 21'b10101101010001111010;
+expected_data = 21'b0001001000000000000000;
 @(next_data);
 
-send_data = 966411;
-expected_data = 458752;
+send_data = 21'b10011110000011011010;
+expected_data = 21'b0001001000000000000000;
 @(next_data);
 
-send_data = 535701;
-expected_data = 133120;
+send_data = 21'b11010000110101101010;
+expected_data = 21'b0001001000000000000000;
 @(next_data);
 
-send_data = 533142;
-expected_data = 1024;
+send_data = 21'b01001101010010001011;
+expected_data = 21'b0001001000000000000000;
 @(next_data);
 
-send_data = 75701;
-expected_data = 394240;
+send_data = 21'b10011001011010101011;
+expected_data = 21'b0001001000000000000000;
 @(next_data);
 
-send_data = 75446;
-expected_data = 1024;
+send_data = 21'b01010100000100011011;
+expected_data = 21'b0001001000000000000000;
 @(next_data);
 
-send_data = 834133;
-expected_data = 458752;
+send_data = 21'b11101011111100001011;
+expected_data = 21'b0001001000000000000000;
 @(next_data);
 
-send_data = 833366;
-expected_data = 1024;
+send_data = 21'b10011010101110101011;
+expected_data = 21'b0001001000000000000000;
 @(next_data);
 
-send_data = 221029;
-expected_data = 394240;
+send_data = 21'b10000010110010010101;
+expected_data = 21'b0001001000000000000000;
 @(next_data);
 
-send_data = 218726;
-expected_data = 28420;
+send_data = 21'b10000010001010010110;
+expected_data = 21'b0001001000000000000000;
 @(next_data);
 
+send_data = 21'b00010010011110110101;
+expected_data = 21'b0001001000000000000000;
+@(next_data);
+
+send_data = 21'b00010010011010110110;
+expected_data = 21'b0001001000000000000000;
+@(next_data);
+
+send_data = 21'b11001011101001010101;
+expected_data = 21'b0001001000000000000000;
+@(next_data);
+
+send_data = 21'b11001011011101010110;
+expected_data = 21'b0001001000000000000000;
+@(next_data);
+
+send_data = 21'b00110101111101100101;
+expected_data = 21'b0001001000000000000000;
+@(next_data);
