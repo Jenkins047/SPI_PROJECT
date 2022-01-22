@@ -1,0 +1,142 @@
+select_slave = 1;
+send_request = 1;
+
+send_data = 20'b00011100001010011001;
+expected_data = 20'b11111111110100000000;
+@(next_data);
+
+send_data = 20'b00001011010010001010;
+expected_data = 20'b00000000000100000000;
+@(next_data);
+
+send_data = 20'b01100101001000100000;
+expected_data = 20'b10000111010000000000;
+@(next_data);
+
+send_data = 20'b10101010001100010001;
+expected_data = 20'b10011011010000000000;
+@(next_data);
+
+send_data = 20'b11010011110011110010;
+expected_data = 20'b11100011010000000000;
+@(next_data);
+
+send_data = 20'b11100110100110000011;
+expected_data = 20'b01110011000000000000;
+@(next_data);
+
+send_data = 20'b00000001001000100100;
+expected_data = 20'b00000010001000000000;
+@(next_data);
+
+send_data = 20'b10100001111011100101;
+expected_data = 20'b11110001010000000000;
+@(next_data);
+
+send_data = 20'b11000011011100100110;
+expected_data = 20'b10111101010000000000;
+@(next_data);
+
+send_data = 20'b10111101110011000111;
+expected_data = 20'b00000100001000000000;
+@(next_data);
+
+send_data = 20'b01100100011010001000;
+expected_data = 20'b00001010000000000000;
+@(next_data);
+
+send_data = 20'b10111111011101011001;
+expected_data = 20'b11111111110100000000;
+@(next_data);
+
+send_data = 20'b11101010011100101010;
+expected_data = 20'b00000000000100000000;
+@(next_data);
+
+send_data = 20'b10111101011100000000;
+expected_data = 20'b00101101000100000000;
+@(next_data);
+
+send_data = 20'b11110111111000000001;
+expected_data = 20'b00010111000000000000;
+@(next_data);
+
+send_data = 20'b11111010000100000010;
+expected_data = 20'b00010101000000000000;
+@(next_data);
+
+send_data = 20'b10101111010111110011;
+expected_data = 20'b01010111000000000000;
+@(next_data);
+
+send_data = 20'b00010000100101010100;
+expected_data = 20'b00100000001000000000;
+@(next_data);
+
+send_data = 20'b01000100111011100101;
+expected_data = 20'b01100110000000000000;
+@(next_data);
+
+send_data = 20'b01011011011111000110;
+expected_data = 20'b01011011000000000000;
+@(next_data);
+
+send_data = 20'b01101101001110110111;
+expected_data = 20'b00000111000000000000;
+@(next_data);
+
+send_data = 20'b01011010010001011000;
+expected_data = 20'b00001001000000000000;
+@(next_data);
+
+send_data = 20'b00000100010010001001;
+expected_data = 20'b00001111000000000000;
+@(next_data);
+
+send_data = 20'b11000000001111111010;
+expected_data = 20'b00000000000100000000;
+@(next_data);
+
+send_data = 20'b00000000110100010000;
+expected_data = 20'b11010001010000000000;
+@(next_data);
+
+send_data = 20'b00010011010100000001;
+expected_data = 20'b01000011000000000000;
+@(next_data);
+
+send_data = 20'b01110011001011010010;
+expected_data = 20'b10100001010000000000;
+@(next_data);
+
+send_data = 20'b00000100000101100011;
+expected_data = 20'b00000010001000000000;
+@(next_data);
+
+send_data = 20'b01000000101110010100;
+expected_data = 20'b10000000011000000000;
+@(next_data);
+
+send_data = 20'b10101011100001010101;
+expected_data = 20'b11111110010000000000;
+@(next_data);
+
+send_data = 20'b00001110101010000110;
+expected_data = 20'b00001110000000000000;
+@(next_data);
+
+send_data = 20'b01001100001000010111;
+expected_data = 20'b00000100001000000000;
+@(next_data);
+
+send_data = 20'b10110100101111111000;
+expected_data = 20'b00000101000000000000;
+@(next_data);
+
+send_data = 20'b00101011010001011001;
+expected_data = 20'b11111111110100000000;
+@(next_data);
+
+send_data = 20'b00011100011111011010;
+expected_data = 20'b00000000000100000000;
+@(next_data);
