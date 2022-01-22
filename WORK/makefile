@@ -11,8 +11,6 @@ rtl:
 RTL_FILES   = ../RTL/*.sv
 TB_FILES    = ../TEST/testbench.sv
 
-show:
-
 sim: clear
 	iverilog -g2005-sv ${RTL_FILES} ${TB_FILES} -o spi_test.iveri.run |& tee spi_test.iveri.log
 	./spi_test.iveri.run
