@@ -17,16 +17,16 @@ logic s_we, s_inter;
 logic argA_enable, argB_enable, oper_enable, result_enable;
 //logic s_bit, s_bit_next;
 
-exe_unit #(.N(N), .M(M)) exe1 (
-                               .i_argA(s_argA),
-                               .i_argB(s_argB),
-                               .i_oper(s_oper),
-                               .o_result(s_result_next),
-                               .o_SF(s_flags_next[0]),
-                               .o_OF(s_flags_next[1]),
-                               .o_NF(s_flags_next[2]),
-                               .o_BF(s_flags_next[3])
-                               );
+exe_unit_rtl exe_unit(
+            .i_argA(s_argA),
+            .i_argB(s_argB),
+            .i_oper(s_oper),
+            .o_result(s_result_next),
+            .o_SF(s_flags_next[0]),
+            .o_OF(s_flags_next[1]),
+            .o_NF(s_flags_next[2]),
+            .o_BF(s_flags_next[3])
+            );
 
 logic s_en_in, s_wrt_in;
 shifter #(.N(M)) shift_in (
@@ -98,7 +98,6 @@ begin
         {s_wrt_in, s_wrt_out} = 2'b00;
         s_cycles = 0;
         s_we = '0;
-        s_oper_next = '1;
         {argA_enable, argB_enable, oper_enable} = '0;
         if(s_inter)
         begin
@@ -175,16 +174,16 @@ begin
     begin
         s_state_next = IDLE;
         {s_en_out, s_en_in} = '0;
-        {s_wrt_in, s_wrt_out} = 2'b01;
-        s_cycles = 1;
+        {s_wrt_in, s_wrt_out} = 2'b00;
+        s_cycles = 3;
         s_we = '1;
     end
 
     IDLE:
     begin
         {s_en_out, s_en_in} = '1;
-        {s_wrt_in, s_wrt_out} = 2'b01;
-        s_cycles = 1;
+        {s_wrt_in, s_wrt_out} = 2'b00;
+        s_cycles = 0;
         s_we = '0;
         result_enable = '1;
         if(s_inter)

@@ -1,6 +1,7 @@
 select_slave = 0;
 send_request = 1;
 
+@(next_data);
 send_data = {8'd111, 8'd0, 4'd0};
 expected_data = 21'b0000000000000000000000;
 @(next_data);
@@ -211,4 +212,4 @@ expected_data = 21'b0001001000000000000000;
 
 send_data = 21'b00110101111101100101;
 expected_data = 21'b0001001000000000000000;
-@(next_data);
+//@(next_data);

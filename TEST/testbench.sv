@@ -67,10 +67,14 @@ begin
             -> check_data;
             if (received_data !== expected_data)
             begin
-                $display("%c[1;31mERROR%c[0m @%0ds: Bledny transfer: slave_number=%0d, received_data=%0b, expected_data=%0b",27,27, $time, select_slave, received_data, expected_data);
+                $display("%c[1;31mERROR%c[0m @%0ds: Bledny transfer: slave_number=%0d, received_data=%21b, expected_data=%21b",27,27, $time, select_slave, received_data, expected_data);
                 liczba_bledow_transferow += 1;
             end
-            else liczba_poprawnych_transferow += 1;
+            else 
+            begin
+            liczba_poprawnych_transferow += 1;
+            $display("%c[1;32mGIT%c[0m @%0ds: git transfer: slave_number=%0d, received_data=%21b, expected_data=%21b",27,27, $time, select_slave, received_data, expected_data);
+            end
         end    
 end
 
