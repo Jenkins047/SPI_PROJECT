@@ -47,17 +47,6 @@ exe_unit_rtl #()
                     );
 
 
-//wyświetlanie złych wyników rezultatów syntezy
-/*always @(test_results)
-begin
-    if(s_result_model !== s_result_synth & s_oper < 11) //sprawdzamy tylko przypadki gdy s_oper jest mniejszt od 10 ponieważ wyniki dla większych wartości nie są ważne
-    begin
-        $display("%c[1;31mERROR%c[0m @%0dms: bledna wartosc wyniku dla operacji %0d, argA = %0b, argB = %0b, model_result = %0b, synth_result = %0b",27, 27, $time-`TIME_STEP, s_oper, s_argA, s_argB, s_result_model, s_result_synth);
-        liczba_bledow_wynikow = liczba_bledow_wynikow + 1;
-    end
-    else liczba_poprawnych_wynikow = liczba_poprawnych_wynikow + 1;
-end*/
-
 always @(test_results)
 begin
     if(s_result_model == s_result_synth & s_oper < 11) //sprawdzamy tylko przypadki gdy s_oper jest mniejszt od 10 ponieważ wyniki dla większych wartości nie są ważne
@@ -67,28 +56,6 @@ begin
     end
     else liczba_poprawnych_wynikow = liczba_poprawnych_wynikow + 1;
 end
-
-//wyświetlanie złych wyników flag syntezy
-/*always @(test_results)
-begin
-    if(s_flags_model !== s_flags_synth & s_oper < 11)
-    begin
-        $display("%c[1;31mERROR%c[0m @%0dms: bledna wartosc wyniku dla operacji %0d, argA = %0b, argB = %0b, model_result = %b, synth_result = %4b",27, 27, $time-`TIME_STEP, s_oper, s_argA, s_argB, s_flags_model, s_flags_synth);
-        liczba_bledow_flag = liczba_bledow_flag + 1;
-    end
-    else liczba_poprawnych_flag = liczba_poprawnych_flag + 1;
-end
-
-//wyświetlanie poprawnych wyników syntezy
-always @(test_results)
-begin
-    if(s_result_model === s_result_synth & s_flags_model === s_flags_synth & s_oper < 11) //wyświetlamy wyniki poprawnej syntezy
-    begin
-        $display("%c[1;32mSUCCESS%c[0m Operacja: %0d, argA = %8b, argB = %8b, resullt = %8b",27, 27, s_oper, s_argA, s_argB, s_result_model);
-        //$display("                     argA = %8d, argB = %8d, resullt = %8d", s_argA, s_argB, s_result_model);
-        $display("        OF = %0b, SF = %0b, BF = %0b, VF = %b\n", s_flags_synth[0], s_flags_synth[1], s_flags_synth[2], s_flags_synth[3]);
-    end
-end*/
 
 integer seed, count;
 
