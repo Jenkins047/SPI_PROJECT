@@ -54,15 +54,12 @@ watchdog #(.N(4)) counter(
                             .o_inter(s_inter)
                             );
 
-localparam STATES_NUM = 8;
+localparam STATES_NUM = 5;
 localparam [$clog2(STATES_NUM)-1:0] READY = 0, 
-                                    LOAD_OPER = 1, 
-                                    STORE_OPER = 2, 
-                                    LOAD_A = 3, 
-                                    STORE_A = 4, 
-                                    LOAD_B = 5,
-                                    SET_IDLE = 6,
-                                    IDLE = 7;
+                                    LOAD_A = 1, 
+                                    LOAD_B = 2, 
+                                    LOAD_OPER = 3, 
+                                    STORE_RESULT = 4;
 
 logic [$clog2(STATES_NUM)-1:0] s_state, s_state_next;
 
@@ -82,39 +79,12 @@ begin
         {argA_enable, argB_enable, oper_enable} = '0;
         if(!i_cs)
         begin
-            s_state_next = LOAD_OPER;
+            s_state_next = LOAD_A;
             {s_en_out, s_en_in} = '1;
             {s_wrt_in, s_wrt_out} = 2'b00;
             s_cycles = 8;
             s_we = '1;
         end
-    end
-
-    LOAD_OPER:
-    begin
-        {s_en_out, s_en_in} = '1;
-        {s_wrt_in, s_wrt_out} = 2'b00;
-        s_cycles = 0;
-        s_we = '0;
-        {argA_enable, argB_enable, oper_enable} = '0;
-        if(s_inter)
-        begin
-            s_state_next = LOAD_A;
-            {s_en_out, s_en_in} = '1;
-            {s_wrt_in, s_wrt_out} = 2'b00;
-            s_cycles = 0;
-            {argA_enable, argB_enable, oper_enable} = 3'b100;
-            s_argA_next = s_data_next;
-        end
-
-    end
-
-    STORE_OPER:
-    begin
-        s_state_next = LOAD_A;
-        {s_en_out, s_en_in} = '1;
-        {s_wrt_in, s_wrt_out} = 2'b00;
-        {argA_enable, argB_enable, oper_enable} = '0;
     end
 
     LOAD_A:
@@ -129,21 +99,32 @@ begin
             s_state_next = LOAD_B;
             {s_en_out, s_en_in} = '1;
             {s_wrt_in, s_wrt_out} = 2'b00;
+            s_cycles = 0;
+            {argA_enable, argB_enable, oper_enable} = 3'b100;
+            s_argA_next = s_data_next;
+        end
+
+    end
+
+    LOAD_B:
+    begin
+        {s_en_out, s_en_in} = '1;
+        {s_wrt_in, s_wrt_out} = 2'b00;
+        s_cycles = 0;
+        s_we = '0;
+        {argA_enable, argB_enable, oper_enable} = '0;
+        if(s_inter)
+        begin
+            s_state_next = LOAD_OPER;
+            {s_en_out, s_en_in} = '1;
+            {s_wrt_in, s_wrt_out} = 2'b00;
             s_cycles = 0;        
             {argA_enable, argB_enable, oper_enable} = 3'b010;
             s_argB_next = s_data_next;
         end
     end
 
-    STORE_A:
-    begin
-        s_state_next = LOAD_B;
-        {s_en_out, s_en_in} = '1;
-        {s_wrt_in, s_wrt_out} = 2'b00;
-        {argA_enable, argB_enable, oper_enable} = '0;
-    end
-
-    LOAD_B:
+    LOAD_OPER:
     begin
 
         {s_en_out, s_en_in} = '1;
@@ -153,7 +134,7 @@ begin
         {argA_enable, argB_enable, oper_enable} = '0;
         if(s_inter)
         begin
-            s_state_next = SET_IDLE;
+            s_state_next = STORE_RESULT;
             {s_en_out, s_en_in} = '1;
             {s_wrt_in, s_wrt_out} = 2'b00;
             {argA_enable, argB_enable, oper_enable} = 3'b001;
@@ -161,29 +142,13 @@ begin
         end
     end
 
-    SET_IDLE:
+    STORE_RESULT:
     begin
         s_state_next = READY;
         {s_en_out, s_en_in} = '1;
         {s_wrt_in, s_wrt_out} = 2'b01;
         s_result = s_result_next;
         s_flags = s_flags_next;
-    end
-
-    IDLE:
-    begin
-        {s_en_out, s_en_in} = '1;
-        {s_wrt_in, s_wrt_out} = 2'b01;
-        s_cycles = 1;
-        s_we = '0;
-        result_enable = '1;
-        if(s_inter)
-        begin
-            s_state_next = LOAD_OPER;
-            {s_en_out, s_en_in} = '1;
-            {s_wrt_in, s_wrt_out} = 2'b01;
-            {argA_enable, argB_enable, oper_enable} = '0;
-        end
     end
 
     default: s_state_next = READY;
@@ -225,31 +190,5 @@ begin : regOper
   if(oper_enable)
      s_oper <= s_oper_next;
 end
-
-// always @(posedge i_sclk, negedge i_rst)
-// begin : regResult
-//  if (!i_rst)
-//      s_result <= '0;
-//  else
-//   if (result_enable)
-//      s_result <= s_result_next;
-// end
-
-// always @(posedge i_sclk, negedge i_rst)
-// begin : regFlags
-//  if (!i_rst)
-//      s_flags <= '0;
-//  else
-//   if (result_enable)
-//      s_flags <= s_flags_next;
-// end
-
-// always @(posedge i_sclk, negedge i_rst)
-// begin : delay
-//  if (!i_rst)
-//      s_bit <= '0;
-//  else
-//      s_bit <= s_bit_next;
-// end
 
 endmodule
