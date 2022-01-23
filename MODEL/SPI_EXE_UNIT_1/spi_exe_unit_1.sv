@@ -72,7 +72,6 @@ begin
     s_cycles = 0;
     s_we = '0;
     {argA_enable, argB_enable, oper_enable} = '0;
-    s_oper_next[3:0] = '0;
 
     case(s_state)
 
@@ -119,7 +118,6 @@ begin
             {s_en_out, s_en_in} = '1;
             oper_enable = '1;
             s_oper_next = s_data_next;
-            s_oper_next[3:0] = '0;
         end
     end
 
