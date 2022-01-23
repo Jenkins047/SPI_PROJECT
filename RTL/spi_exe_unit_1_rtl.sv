@@ -868,12 +868,12 @@ module spi_exe_unit_1_rtl(i_rst, i_sclk, i_mosi, o_miso, i_cs);
   wire [27:0] \shift_out.o_data ;
   reg [27:0] \shift_out.s_shifter ;
   assign _0004_ = ~i_cs;
-  assign _0005_ = ~s_state[1];
-  assign _0006_ = ~s_state[0];
+  assign _0005_ = ~s_state[0];
+  assign _0006_ = ~s_state[1];
   assign _0007_ = ~s_state[2];
   assign _0008_ = ~s_inter;
   assign _0009_ = _0005_ & _0006_;
-  assign _0010_ = s_state[1] | s_state[0];
+  assign _0010_ = s_state[0] | s_state[1];
   assign _0011_ = s_state[2] | _0010_;
   assign s_en_in = _0004_ | _0011_;
   assign _0012_ = s_state[2] | s_inter;
@@ -881,18 +881,18 @@ module spi_exe_unit_1_rtl(i_rst, i_sclk, i_mosi, o_miso, i_cs);
   assign _0000_ = s_en_in & _0013_;
   assign s_wrt_out = s_state[2] & _0009_;
   assign _0014_ = s_state[0] & _0007_;
-  assign _0015_ = _0006_ | s_state[2];
-  assign _0016_ = _0005_ & _0014_;
+  assign _0015_ = _0005_ | s_state[2];
+  assign _0016_ = _0006_ & _0014_;
   assign _0017_ = s_state[1] | _0015_;
   assign argA_enable = s_inter & _0016_;
   assign _0001_ = _0008_ | _0017_;
   assign _0018_ = s_state[1] & _0007_;
-  assign _0019_ = _0005_ | s_state[2];
-  assign _0020_ = _0006_ & _0018_;
+  assign _0019_ = _0006_ | s_state[2];
+  assign _0020_ = _0005_ & _0018_;
   assign _0021_ = s_state[0] | _0019_;
   assign argB_enable = s_inter & _0020_;
   assign _0002_ = _0008_ | _0021_;
-  assign _0022_ = _0006_ | _0019_;
+  assign _0022_ = _0005_ | _0019_;
   assign s_state_next[2] = ~_0022_;
   assign oper_enable = s_inter & s_state_next[2];
   assign _0003_ = _0008_ | _0022_;
@@ -901,6 +901,26 @@ module spi_exe_unit_1_rtl(i_rst, i_sclk, i_mosi, o_miso, i_cs);
   assign s_state_next[1] = _0016_ | _0020_;
   assign _0024_ = i_cs | _0011_;
   assign s_we = ~_0024_;
+  reg \s_oper_reg[4] ;
+  always @(posedge i_sclk, negedge i_rst)
+    if (!i_rst) \s_oper_reg[4]  <= 1'h0;
+    else if (oper_enable) \s_oper_reg[4]  <= s_oper_next[4];
+  assign s_oper[4] = \s_oper_reg[4] ;
+  reg \s_oper_reg[5] ;
+  always @(posedge i_sclk, negedge i_rst)
+    if (!i_rst) \s_oper_reg[5]  <= 1'h0;
+    else if (oper_enable) \s_oper_reg[5]  <= s_oper_next[5];
+  assign s_oper[5] = \s_oper_reg[5] ;
+  reg \s_oper_reg[6] ;
+  always @(posedge i_sclk, negedge i_rst)
+    if (!i_rst) \s_oper_reg[6]  <= 1'h0;
+    else if (oper_enable) \s_oper_reg[6]  <= s_oper_next[6];
+  assign s_oper[6] = \s_oper_reg[6] ;
+  reg \s_oper_reg[7] ;
+  always @(posedge i_sclk, negedge i_rst)
+    if (!i_rst) \s_oper_reg[7]  <= 1'h0;
+    else if (oper_enable) \s_oper_reg[7]  <= s_oper_next[7];
+  assign s_oper[7] = \s_oper_reg[7] ;
   always @*
     if (s_wrt_out) s_result[0] = s_result_next[0];
   always @*
@@ -973,26 +993,6 @@ module spi_exe_unit_1_rtl(i_rst, i_sclk, i_mosi, o_miso, i_cs);
   always @*
     if (!_0003_) \s_oper_next_reg[7]  = s_data_next[7];
   assign s_oper_next[7] = \s_oper_next_reg[7] ;
-  reg \s_oper_reg[4] ;
-  always @(posedge i_sclk, negedge i_rst)
-    if (!i_rst) \s_oper_reg[4]  <= 1'h0;
-    else if (oper_enable) \s_oper_reg[4]  <= s_oper_next[4];
-  assign s_oper[4] = \s_oper_reg[4] ;
-  reg \s_oper_reg[5] ;
-  always @(posedge i_sclk, negedge i_rst)
-    if (!i_rst) \s_oper_reg[5]  <= 1'h0;
-    else if (oper_enable) \s_oper_reg[5]  <= s_oper_next[5];
-  assign s_oper[5] = \s_oper_reg[5] ;
-  reg \s_oper_reg[6] ;
-  always @(posedge i_sclk, negedge i_rst)
-    if (!i_rst) \s_oper_reg[6]  <= 1'h0;
-    else if (oper_enable) \s_oper_reg[6]  <= s_oper_next[6];
-  assign s_oper[6] = \s_oper_reg[6] ;
-  reg \s_oper_reg[7] ;
-  always @(posedge i_sclk, negedge i_rst)
-    if (!i_rst) \s_oper_reg[7]  <= 1'h0;
-    else if (oper_enable) \s_oper_reg[7]  <= s_oper_next[7];
-  assign s_oper[7] = \s_oper_reg[7] ;
   always @(posedge i_sclk, negedge i_rst)
     if (!i_rst) s_argB[0] <= 1'h0;
     else if (argB_enable) s_argB[0] <= s_argB_next[0];
@@ -2012,6 +2012,8 @@ module spi_exe_unit_1_rtl(i_rst, i_sclk, i_mosi, o_miso, i_cs);
   assign result_enable = 1'h0;
   assign s_cycles = { s_we, 3'h0 };
   assign s_en_out = s_en_in;
+  assign s_oper[3:0] = 4'h0;
+  assign s_oper_next[3:0] = 4'h0;
   assign s_wrt_in = 1'h0;
   assign \shift_out.o_bit  = \shift_out.s_shifter [27];
   assign \shift_out.o_data  = \shift_out.s_shifter ;
