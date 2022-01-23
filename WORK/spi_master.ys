@@ -15,5 +15,5 @@ select -del spi_master_rtl
 delete
 select *
 
-write_verilog -noattr ../RTL/spi_mastre_rtl.sv
+write_verilog -noattr ../RTL/spi_master_rtl.sv
 
