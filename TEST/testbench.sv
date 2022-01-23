@@ -5,7 +5,7 @@
 `define RSTTIME     201
 
 module testbench;
-parameter BITS = 21;
+parameter BITS = 28;
 
 logic               clk = 1'b1;
 logic               rst = 1'b1;
@@ -99,6 +99,7 @@ initial begin
 
     // Testy dla poszczegolnych układów spi_slave_exe_unit
    `include "../TEST/test_spi_exe_unit_1.vh"
+   `include "../TEST/test_spi_exe_unit_2.vh"
 
 
 

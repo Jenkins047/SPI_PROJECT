@@ -2,7 +2,7 @@ module spi_master(i_clk, i_rst,
                   i_data, i_send, 
                   o_data, o_busy, 
                   i_miso, o_mosi, o_sclk, o_ss);
-parameter BITS = 23;
+parameter BITS = 28;
 parameter SLAVES_NUMBER = 3;
 
 input logic             i_clk, i_rst, i_send, i_miso;

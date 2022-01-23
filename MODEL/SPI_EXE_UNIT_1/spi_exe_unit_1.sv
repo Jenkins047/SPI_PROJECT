@@ -1,18 +1,16 @@
 module spi_exe_unit_1 (i_rst, i_sclk, i_mosi, o_miso, i_cs);
-parameter BITS = 21;
+parameter BITS = 28;
 localparam M = 8;
 localparam N = 4;
 input logic i_rst, i_sclk, i_mosi, i_cs;
 output logic o_miso;
 
-logic [M-1:0] s_argA, s_argB, s_result;
-logic [N-1:0] s_oper;
+logic [M-1:0] s_argA, s_argB, s_oper, s_result;
 logic [3:0] s_flags;
-logic [M-1:0] s_argA_next, s_argB_next, s_result_next;
-logic [N-1:0] s_oper_next;
+logic [M-1:0] s_argA_next, s_argB_next, s_oper_next, s_result_next;
 logic [3:0] s_flags_next;
 logic [M-1:0] s_data_next;
-logic [2:0] s_cycles;
+logic [3:0] s_cycles;
 logic s_we, s_inter;
 logic argA_enable, argB_enable, oper_enable, result_enable;
 //logic s_bit, s_bit_next;
@@ -20,7 +18,7 @@ logic argA_enable, argB_enable, oper_enable, result_enable;
 exe_unit #(.N(N), .M(M)) exe1 (
                                .i_argA(s_argA),
                                .i_argB(s_argB),
-                               .i_oper(s_oper),
+                               .i_oper(s_oper[7:4]),
                                .o_result(s_result_next),
                                .o_SF(s_flags_next[0]),
                                .o_OF(s_flags_next[1]),
@@ -42,13 +40,13 @@ logic s_en_out, s_wrt_out;
 shifter #(.N(BITS)) shift_out (   
                                .i_clk_p(i_sclk),
                                .i_rst_n(i_rst),
-                               .i_data({s_result, s_flags, {9{1'b0}}}),
+                               .i_data({s_result, s_flags, {16{1'b0}}}),
                                .i_en(s_en_out),
                                .i_wrt(s_wrt_out),
                                .o_bit(o_miso)
                             );
 
-watchdog #(.N(3)) counter(
+watchdog #(.N(4)) counter(
                             .i_clk_p(i_sclk),
                             .i_rst_n(i_rst),
                             .i_cycles(s_cycles),
@@ -87,7 +85,7 @@ begin
             s_state_next = LOAD_OPER;
             {s_en_out, s_en_in} = '1;
             {s_wrt_in, s_wrt_out} = 2'b00;
-            s_cycles = 3;
+            s_cycles = 8;
             s_we = '1;
         end
     end
@@ -98,16 +96,15 @@ begin
         {s_wrt_in, s_wrt_out} = 2'b00;
         s_cycles = 0;
         s_we = '0;
-        s_oper_next = '1;
         {argA_enable, argB_enable, oper_enable} = '0;
         if(s_inter)
         begin
-            s_state_next = STORE_OPER;
+            s_state_next = LOAD_A;
             {s_en_out, s_en_in} = '1;
             {s_wrt_in, s_wrt_out} = 2'b00;
             s_cycles = 0;
-            {argA_enable, argB_enable, oper_enable} = 3'b001;
-            s_oper_next = s_data_next[7:4];
+            {argA_enable, argB_enable, oper_enable} = 3'b100;
+            s_argA_next = s_data_next;
         end
 
     end
@@ -117,8 +114,6 @@ begin
         s_state_next = LOAD_A;
         {s_en_out, s_en_in} = '1;
         {s_wrt_in, s_wrt_out} = 2'b00;
-        s_cycles = 4;
-        s_we = '1;
         {argA_enable, argB_enable, oper_enable} = '0;
     end
 
@@ -128,16 +123,15 @@ begin
         {s_wrt_in, s_wrt_out} = 2'b00;
         s_cycles = 0;
         s_we = '0;
-        s_argA_next = '1;
         {argA_enable, argB_enable, oper_enable} = '0;
         if(s_inter)
         begin
-            s_state_next = STORE_A;
+            s_state_next = LOAD_B;
             {s_en_out, s_en_in} = '1;
             {s_wrt_in, s_wrt_out} = 2'b00;
             s_cycles = 0;        
-            {argA_enable, argB_enable, oper_enable} = 3'b100;
-            s_argA_next = s_data_next;
+            {argA_enable, argB_enable, oper_enable} = 3'b010;
+            s_argB_next = s_data_next;
         end
     end
 
@@ -146,8 +140,6 @@ begin
         s_state_next = LOAD_B;
         {s_en_out, s_en_in} = '1;
         {s_wrt_in, s_wrt_out} = 2'b00;
-        s_cycles = 6;
-        s_we = '1;
         {argA_enable, argB_enable, oper_enable} = '0;
     end
 
@@ -158,26 +150,24 @@ begin
         {s_wrt_in, s_wrt_out} = 2'b00;
         s_cycles = 0;
         s_we = '0;
-        s_argB_next = '1;
         {argA_enable, argB_enable, oper_enable} = '0;
         if(s_inter)
         begin
             s_state_next = SET_IDLE;
             {s_en_out, s_en_in} = '1;
             {s_wrt_in, s_wrt_out} = 2'b00;
-            s_cycles = 2;
-            {argA_enable, argB_enable, oper_enable} = 3'b010;
-            s_argB_next = s_data_next;
+            {argA_enable, argB_enable, oper_enable} = 3'b001;
+            s_oper_next = s_data_next;
         end
     end
 
     SET_IDLE:
     begin
-        s_state_next = IDLE;
-        {s_en_out, s_en_in} = '0;
+        s_state_next = READY;
+        {s_en_out, s_en_in} = '1;
         {s_wrt_in, s_wrt_out} = 2'b01;
-        s_cycles = 1;
-        s_we = '1;
+        s_result = s_result_next;
+        s_flags = s_flags_next;
     end
 
     IDLE:
@@ -189,7 +179,7 @@ begin
         result_enable = '1;
         if(s_inter)
         begin
-            s_state_next = READY;
+            s_state_next = LOAD_OPER;
             {s_en_out, s_en_in} = '1;
             {s_wrt_in, s_wrt_out} = 2'b01;
             {argA_enable, argB_enable, oper_enable} = '0;
@@ -236,23 +226,23 @@ begin : regOper
      s_oper <= s_oper_next;
 end
 
-always @(posedge i_sclk, negedge i_rst)
-begin : regResult
- if (!i_rst)
-     s_result <= '0;
- else
-  if (result_enable)
-     s_result <= s_result_next;
-end
+// always @(posedge i_sclk, negedge i_rst)
+// begin : regResult
+//  if (!i_rst)
+//      s_result <= '0;
+//  else
+//   if (result_enable)
+//      s_result <= s_result_next;
+// end
 
-always @(posedge i_sclk, negedge i_rst)
-begin : regFlags
- if (!i_rst)
-     s_flags <= '0;
- else
-  if (result_enable)
-     s_flags <= s_flags_next;
-end
+// always @(posedge i_sclk, negedge i_rst)
+// begin : regFlags
+//  if (!i_rst)
+//      s_flags <= '0;
+//  else
+//   if (result_enable)
+//      s_flags <= s_flags_next;
+// end
 
 // always @(posedge i_sclk, negedge i_rst)
 // begin : delay
