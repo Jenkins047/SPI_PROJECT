@@ -67,21 +67,22 @@ always @(*)
 begin
     s_state_next = s_state;
     result_enable = '0;
+    {s_en_out, s_en_in} = '1;
+    {s_wrt_in, s_wrt_out} = 2'b00;
+    s_cycles = 0;
+    s_we = '0;
+    {argA_enable, argB_enable, oper_enable} = '0;
 
     case(s_state)
 
     READY:
     begin
         {s_en_out, s_en_in} = '0;
-        {s_wrt_in, s_wrt_out} = 2'b00;
-        s_cycles = 0;
-        s_we = '0;
-        {argA_enable, argB_enable, oper_enable} = '0;
+
         if(!i_cs)
         begin
             s_state_next = LOAD_A;
             {s_en_out, s_en_in} = '1;
-            {s_wrt_in, s_wrt_out} = 2'b00;
             s_cycles = 8;
             s_we = '1;
         end
@@ -89,55 +90,33 @@ begin
 
     LOAD_A:
     begin
-        {s_en_out, s_en_in} = '1;
-        {s_wrt_in, s_wrt_out} = 2'b00;
-        s_cycles = 0;
-        s_we = '0;
-        {argA_enable, argB_enable, oper_enable} = '0;
         if(s_inter)
         begin
             s_state_next = LOAD_B;
             {s_en_out, s_en_in} = '1;
-            {s_wrt_in, s_wrt_out} = 2'b00;
-            s_cycles = 0;
-            {argA_enable, argB_enable, oper_enable} = 3'b100;
+            argA_enable = '1;
             s_argA_next = s_data_next;
         end
-
     end
 
     LOAD_B:
     begin
-        {s_en_out, s_en_in} = '1;
-        {s_wrt_in, s_wrt_out} = 2'b00;
-        s_cycles = 0;
-        s_we = '0;
-        {argA_enable, argB_enable, oper_enable} = '0;
         if(s_inter)
         begin
             s_state_next = LOAD_OPER;
-            {s_en_out, s_en_in} = '1;
-            {s_wrt_in, s_wrt_out} = 2'b00;
-            s_cycles = 0;        
-            {argA_enable, argB_enable, oper_enable} = 3'b010;
+            {s_en_out, s_en_in} = '1;    
+            argB_enable = '1;
             s_argB_next = s_data_next;
         end
     end
 
     LOAD_OPER:
     begin
-
-        {s_en_out, s_en_in} = '1;
-        {s_wrt_in, s_wrt_out} = 2'b00;
-        s_cycles = 0;
-        s_we = '0;
-        {argA_enable, argB_enable, oper_enable} = '0;
         if(s_inter)
         begin
             s_state_next = STORE_RESULT;
             {s_en_out, s_en_in} = '1;
-            {s_wrt_in, s_wrt_out} = 2'b00;
-            {argA_enable, argB_enable, oper_enable} = 3'b001;
+            oper_enable = '1;
             s_oper_next = s_data_next;
         end
     end
@@ -145,8 +124,7 @@ begin
     STORE_RESULT:
     begin
         s_state_next = READY;
-        {s_en_out, s_en_in} = '1;
-        {s_wrt_in, s_wrt_out} = 2'b01;
+        s_wrt_out = '1;
         s_result = s_result_next;
         s_flags = s_flags_next;
     end
