@@ -15,7 +15,7 @@ logic s_we, s_inter;
 logic argA_enable, argB_enable, oper_enable, result_enable;
 //logic s_bit, s_bit_next;
 
-exe_unit #(.N(N), .M(M)) exe1 (
+exe_unit_rtl exe1 (
                                .i_argA(s_argA),
                                .i_argB(s_argB),
                                .i_oper(s_oper[7:4]),
@@ -129,6 +129,7 @@ begin
         s_wrt_out = '1;
         s_result = s_result_next;
         s_flags = s_flags_next;
+        
     end
 
     default: s_state_next = READY;

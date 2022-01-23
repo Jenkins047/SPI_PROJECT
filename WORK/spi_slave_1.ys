@@ -1,5 +1,6 @@
 
 read_verilog -sv ../MODEL/SPI_EXE_UNIT_1/*.sv
+read_verilog -sv ../RTL/exe_unit_1_rtl.sv
 
 prep -top spi_exe_unit_1
 write_json ../DOC/spi_exe_unit_1.json
