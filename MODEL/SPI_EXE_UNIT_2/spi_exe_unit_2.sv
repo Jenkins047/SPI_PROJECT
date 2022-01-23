@@ -16,7 +16,7 @@ logic [2:0] s_cycles;
 logic s_we, s_inter;
 logic argA_enable, argB_enable, oper_enable, result_enable;
 
-exe_unit_rtl
+exe_unit_rtl_2
     exe_unit1 (
         .i_oper(s_oper),
         .i_argA(s_argA),
