@@ -1,5 +1,15 @@
+<<<<<<< HEAD
 select_slave = 1;
 send_request = 1;
+=======
+
+select_slave = 1;
+send_request = 1;
+
+
+
+
+>>>>>>> a0a28fe71bcd9a7224c66625104a985647388d58
 
 send_data = 28'b1010110000010111101001000000;
 expected_data = 28'b0000011100000000000000000000;
