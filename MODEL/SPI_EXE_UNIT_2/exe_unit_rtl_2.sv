@@ -536,7 +536,7 @@ module \$paramod\zm_to_u2\M=s32'00000000000000000000000000001000 (i_a, o_out);
   assign o_out[0] = i_a[0];
 endmodule
 
-module exe_unit_rtl(i_oper, i_argA, i_argB, o_result, o_OF, o_SF, o_BF, o_VF);
+module exe_unit_rtl_2(i_oper, i_argA, i_argB, o_result, o_OF, o_SF, o_BF, o_VF);
   wire _000_;
   wire _001_;
   wire _002_;

@@ -15,7 +15,7 @@ logic s_we, s_inter;
 logic argA_enable, argB_enable, oper_enable, result_enable;
 //logic s_bit, s_bit_next;
 
-exe_unit #(.OPER(N), .BITS(M)) exe2 (
+exe_unit #(.OPER(N), .BITS(M)) exe3 (
                                .i_argA(s_argA),
                                .i_argB(s_argB),
                                .i_oper(s_oper[7:4]),

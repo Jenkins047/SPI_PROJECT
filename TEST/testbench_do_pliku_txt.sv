@@ -51,7 +51,7 @@ always @(test_results)
 begin
     if(s_result_model == s_result_synth & s_oper < 11) //sprawdzamy tylko przypadki gdy s_oper jest mniejszt od 10 ponieważ wyniki dla większych wartości nie są ważne
     begin
-        $display("send_data = 22'b%8b%8b%4b;\nexpected_data = 22'b%8b%1b%1b%1b%1b;\n@(next_data);\n",s_argA, s_argB, s_oper, s_result_model, s_flags_synth[0], s_flags_synth[1], s_flags_synth[2], s_flags_synth[3]);
+        $display("send_data = 28'b%8b0%8b0%4b000000;\nexpected_data = 28'b%8b%1b%1b%1b%1b;\n@(next_data);\n",s_argA, s_argB, s_oper, s_result_model, s_flags_synth[0], s_flags_synth[1], s_flags_synth[2], s_flags_synth[3]);
         liczba_bledow_wynikow = liczba_bledow_wynikow + 1;
     end
     else liczba_poprawnych_wynikow = liczba_poprawnych_wynikow + 1;

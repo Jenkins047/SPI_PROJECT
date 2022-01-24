@@ -14,6 +14,7 @@ logic               send_request = 1'b0;
 logic [BITS-1:0]    send_data = '0;
 logic [BITS-1:0]    received_data;
 logic [BITS-1:0]    expected_data = '0;
+logic [2:0] s_miso;
 
 // Sygnaly zdarzen sterujacych 
 event               end_simulation;
@@ -53,9 +54,36 @@ spi_exe_unit_1_rtl
         .i_rst(rst), 
         .i_sclk(spi_sclk), 
         .i_mosi(spi_mosi), 
-        .o_miso(spi_miso), 
+        .o_miso(s_miso[0]), 
         .i_cs(spi_ss)
     );
+
+spi_exe_unit_2_rtl 
+    spi_exe_unit_2 (
+        .i_rst(rst), 
+        .i_sclk(spi_sclk), 
+        .i_mosi(spi_mosi), 
+        .o_miso(s_miso[1]), 
+        .i_cs(spi_ss)
+    );
+
+spi_exe_unit_3_rtl 
+    spi_exe_unit_3 (
+        .i_rst(rst), 
+        .i_sclk(spi_sclk), 
+        .i_mosi(spi_mosi), 
+        .o_miso(s_miso[2]), 
+        .i_cs(spi_ss)
+    );
+
+always @(*) 
+begin
+    case(select_slave)
+    0 : spi_miso = s_miso[0];
+    1 : spi_miso = s_miso[1];
+    2 : spi_miso = s_miso[2];
+    endcase    
+end
 
 // Blok sprawdzania poprawnosci
 // odebranych danych
@@ -98,8 +126,8 @@ initial begin
     
 
     // Testy dla poszczegolnych układów spi_slave_exe_unit
-   `include "../TEST/test_spi_exe_unit_1.vh"
-   `include "../TEST/test_spi_exe_unit_2.vh"
+   //`include "../TEST/test_spi_exe_unit_1.vh"
+   `include "../TEST/test_spi_exe_unit_3.vh"
 
 
 
