@@ -16,15 +16,15 @@ logic argA_enable, argB_enable, oper_enable, result_enable;
 //logic s_bit, s_bit_next;
 
 exe_unit_rtl_2 exe2(
-                               .i_argA(s_argA),
-                               .i_argB(s_argB),
-                               .i_oper(s_oper[7:4]),
-                               .o_result(s_result_next),
-                               .o_OF(s_flags_next[0]),
-                               .o_SF(s_flags_next[1]),
-                               .o_BF(s_flags_next[2]),
-                               .o_VF(s_flags_next[3])
-                               );
+                    .i_argA(s_argA),
+                    .i_argB(s_argB),
+                    .i_oper(s_oper[7:4]),
+                    .o_result(s_result_next),
+                    .o_VF(s_flags_next[0]),
+                    .o_BF(s_flags_next[1]),
+                    .o_SF(s_flags_next[2]),
+                    .o_OF(s_flags_next[3])
+                    );
 
 logic s_en_in, s_wrt_in;
 shifter #(.N(M)) shift_in (

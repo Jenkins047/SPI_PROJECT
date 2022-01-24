@@ -127,7 +127,6 @@ begin
         s_wrt_out = '1;
         s_result = s_result_next;
         s_flags = s_flags_next;
-        
     end
 
     default: s_state_next = READY;
