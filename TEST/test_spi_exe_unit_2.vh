@@ -1,13 +1,8 @@
-<<<<<<< HEAD
 select_slave = 1;
 send_request = 1;
-=======
-
->>>>>>> 178df2616ba5b6f1eba78f8c37db6a07c6f8d1b4
-
 
 send_data = 28'b1010110000010111101001000000;
-expected_data = 28'b0000000000000000000000000000;
+expected_data = 28'b0000011100000000000000000000;
 @(next_data);
 
 send_data = 28'b1010001000000001001010000000;
