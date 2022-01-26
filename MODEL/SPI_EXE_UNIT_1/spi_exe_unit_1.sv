@@ -12,7 +12,7 @@ logic [3:0] s_flags_next;
 logic [M-1:0] s_data_next;
 logic [3:0] s_cycles;
 logic s_we, s_inter;
-logic argA_enable, argB_enable, oper_enable, result_enable;
+logic argA_enable, argB_enable, oper_enable;
 //logic s_bit, s_bit_next;
 
 exe_unit_rtl exe1 (
