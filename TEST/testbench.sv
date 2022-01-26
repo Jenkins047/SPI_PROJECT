@@ -100,8 +100,7 @@ begin
             end
             else 
             begin
-            liczba_poprawnych_transferow += 1;
-            $display("%c[1;32mGIT%c[0m @%0ds: git transfer: slave_number=%0d, received_data=%21b, expected_data=%21b",27,27, $time, select_slave, received_data, expected_data);
+                liczba_poprawnych_transferow += 1;
             end
         end    
 end
